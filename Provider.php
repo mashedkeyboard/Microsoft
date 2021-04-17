@@ -65,7 +65,7 @@ class Provider extends AbstractProvider
                     'Authorization' => 'Bearer '.$token,
                 ],
                 'query' => [
-                    '$select' => implode(',', DEFAULT_FIELDS + ($this->config['fields'] ?: []))),
+                    '$select' => implode(',', DEFAULT_FIELDS + ($this->config['fields'] ?: [])),
                 ]
             ]
         );
