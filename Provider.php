@@ -11,6 +11,11 @@ class Provider extends AbstractProvider
      * Unique Provider Identifier.
      */
     public const IDENTIFIER = 'MICROSOFT';
+    
+    /**
+     * Default field list to request from Microsoft.
+     */
+    protected const DEFAULT_FIELDS = ['id', 'displayName', 'businessPhones', 'givenName', 'jobTitle', 'mail', 'mobilePhone', 'officeLocation', 'preferredLanguage', 'surname'];
 
     /**
      * {@inheritdoc}
@@ -59,6 +64,9 @@ class Provider extends AbstractProvider
                     'Accept'        => 'application/json',
                     'Authorization' => 'Bearer '.$token,
                 ],
+                'query' => [
+                    '$select' => implode(',', DEFAULT_FIELDS + ($this->config['fields'] ?: []))),
+                ]
             ]
         );
 
@@ -102,12 +110,13 @@ class Provider extends AbstractProvider
     }
 
     /**
-     * Add the additional configuration key 'tenant' to enable the branded sign-in experience.
+     * Add the additional configuration key 'tenant' to enable the branded sign-in experience,
+     * and the key 'fields' to request extra fields from the Microsoft Graph.
      *
      * @return array
      */
     public static function additionalConfigKeys()
     {
-        return ['tenant'];
+        return ['tenant', 'fields'];
     }
 }
